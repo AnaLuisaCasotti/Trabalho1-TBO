@@ -28,12 +28,14 @@ void adicionaPonto(tVetorPontos *vetor, tPonto *p){
     }
 
     vetor->pontos[vetor->tam] = p;
+    setIndice(p, vetor->tam);
     vetor->tam++;
 }
 
 void geraArestas(tVetorPontos *vetorPontos, tVetorArestas *vetorArestas){
 
-    int i, j, dist;
+    int i, j;
+    double dist;
 
     for(i = 0; i < vetorPontos->tam; i++){
 

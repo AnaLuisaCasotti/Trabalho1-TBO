@@ -4,13 +4,11 @@
 typedef struct Ponto tPonto;
 
 /*@param: 
-    char *id: com o nome do ponto dado; 
-    int indice: com o indice do ponto dentro do vetor;
-    double x: localização do x do ponto;
-    double y: localização do y do ponto;
-
-@return: uma estrutura tPonto alocada na memória*/
-tPonto* criaPonto(char *id, int indice, double x, double y);
+    char *id: com o nome do ponto dado;
+    double *coordenadas: vetor de coordenadas do ponto;
+    int qntCoord: quantidade de coordenadas de cada ponto;
+@return: uma estrutura tPonto alocada na memória (OBS: índice do ponto default é 0)*/
+tPonto* criaPonto(char *id, double *coordenadas, int qntCoord);
 
 /*@param: tPonto *p1, tPonto *p2: o ponteiro para dois pontos
 @return: um valor double resultado da distância euclidiana entre p1 e p2*/
