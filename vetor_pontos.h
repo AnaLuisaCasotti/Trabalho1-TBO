@@ -25,6 +25,28 @@ void geraArestas(tVetorPontos *vetorPontos, tVetorArestas *vetorArestas);
 int tamVetorPontos(tVetorPontos *vetor);
 
 /*@param:
+    tVetorPontos *vetor: ponteiro pro vetor de pontos;
+    int ind: valor inteiro correspondente ao ponto que será encontrado;
+@return: valor do indíce do pai do conjunto;*/
+int findPontos(tVetorPontos *vetorPontos, int ind);
+
+/*@param:
+    tVetorPontos *vetorPontos: ponteiro pro vetor de pontos;
+    int ind1: valor inteiro correspondente ao indíce do ponto 1;
+    int ind2: valor inteiro correspondente ao indíce do ponto 2;
+@return: 1 se estiverem conectados, 0 caso contrário*/
+int connectedPontos(tVetorPontos *vetorPontos, int ind1, int ind2);
+
+/*@param:
+    tVetorPontos *vetor: ponteiro pro vetor de pontos;
+    int ind1: valor inteiro correspondente ao indíce do ponto 1;
+    int ind2: valor inteiro correspondente ao indíce do ponto 2;*/
+void unionPontos(tVetorPontos *vetorPontos, int ind1, int ind2);
+
+/*IMPRESSÃO PARA TESTE*/
+void imprimeVetorPontos(tVetorPontos *vetorPontos);
+
+/*@param:
     tVetorPontos *vetor: ponteiro pro vetor de pontos que será desalocado;*/
 void desalocaVetorPontos(tVetorPontos *vetor);
 

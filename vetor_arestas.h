@@ -3,6 +3,8 @@
 
 #include "aresta.h"
 
+typedef struct VetorPontos tVetorPontos;
+
 typedef struct VetorArestas tVetorArestas;
 
 /*@param:
@@ -16,12 +18,22 @@ tVetorArestas* criaVetorArestas(int numPontos);
 void adicionaAresta(tVetorArestas *vetor, tAresta *aresta);
 
 /*@param:
-    tVetorArestas *vetor: ponteiro pro vetor de arestas;*/
+    tVetor#include "vetor_pontos.h"
+Arestas *vetor: ponteiro pro vetor de arestas;*/
 void ordenaArestas(tVetorArestas *vetor);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas;*/
 void imprimeArestas(tVetorArestas *vetor);
+
+/*@param:
+    tVetorArestas *vetor: ponteiro para o vetor de arestas;*/
+void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos);
+
+/*@param:
+    tVetorArestas *vetor: ponteiro pro vetor de arestas;
+    int indice: indice da aresta a ser excluída;*/
+void excluiAresta(tVetorArestas *vetor, int indice);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas que será desalocado;*/

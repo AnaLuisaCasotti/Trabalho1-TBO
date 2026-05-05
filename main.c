@@ -33,6 +33,12 @@ int main(int argc, char *argv[]){
     ordenaArestas(vetorArestas);
     imprimeArestas(vetorArestas);
 
+    unionArestas(vetorArestas, vetorPontos);
+    imprimeVetorPontos(vetorPontos);
+
+    //excluiAresta(vetorArestas, 0);
+    imprimeArestas(vetorArestas);
+
     desalocaVetorPontos(vetorPontos);
     desalocaVetorArestas(vetorArestas);
 

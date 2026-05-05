@@ -7,7 +7,8 @@
 
 typedef struct Ponto {
     char *id;
-    int indice;
+    int indice_original;
+    int indice_atual;
     int qntCoord;
     double *coordenada;
 } tPonto;
@@ -21,7 +22,7 @@ tPonto* criaPonto(char *id, double *coordenadas, int qntCoord){
 
     strcpy(p->id, id);
 
-    p->indice = 0;
+    p->indice_atual = p->indice_original = 0;
     
     p->qntCoord = qntCoord;
 
@@ -44,20 +45,32 @@ double distanciaEuclidiana(tPonto *p1, tPonto *p2){
     return sqrt(dist);
 }
 
-int getIndice(tPonto *p){
-    return p->indice;
+char *getIdPonto(tPonto *p){
+    return p->id;
+}
+
+int getIndiceAtual(tPonto *p){
+    return p->indice_atual;
+}
+
+int getIndiceOriginal(tPonto *p){
+    return p->indice_original;
 }
 
 void setIndice(tPonto *p, int novoIndice){
-    p->indice = novoIndice;
+    p->indice_atual = novoIndice;
+}
+
+void setIndiceOriginal(tPonto *p, int indice){
+    p->indice_original = p->indice_atual = indice;
 }
 
 void imprimePonto(tPonto *p, FILE *fp){
-    printf("Ponto: %s, indice: %d\n", p->id, p->indice);
+    printf("Ponto: %s, indice original: %d, indice atual: %d\n", p->id, p->indice_original, p->indice_atual);
 
-    for(int i = 0; i < p->qntCoord; i++){
+    /*for(int i = 0; i < p->qntCoord; i++){
         printf("dist %d: %.2f\n", i, p->coordenada[i]);
-    }
+    }*/
 
     //fprintf(fp, "Ponto: %s, x: %f, y: %f\n", p->id, p->x, p->y);
 }

@@ -14,14 +14,26 @@ tPonto* criaPonto(char *id, double *coordenadas, int qntCoord);
 @return: um valor double resultado da distância euclidiana entre p1 e p2*/
 double distanciaEuclidiana(tPonto *p1, tPonto *p2);
 
+/*@param: tPonto *p: ponteiro para o ponto*/
+char *getIdPonto(tPonto *p);
+
 /*@param: tPonto *p: o ponteiro para o ponto p
-@return: um número inteiro que representa seu indice (ou os indices pai/avô dele)*/
-int getIndice(tPonto *p);
+@return: um número inteiro que representa seu indice atual (ou os indices pai/avô dele)*/
+int getIndiceAtual(tPonto *p);
+
+/*@param: tPonto *p: o ponteiro para o ponto p
+@return: um número inteiro que representa seu indice original*/
+int getIndiceOriginal(tPonto *p);
 
 /*@param: 
     tPonto *p: o ponteiro para o ponto p;
     int novoIndice: o novo índice que deve ser setado no ponto p;*/
 void setIndice(tPonto *p, int novoIndice);
+
+/*@param: 
+    tPonto *p: o ponteiro para o ponto p;
+    int indice: o índice original que deve ser setado no ponto p;*/
+void setIndiceOriginal(tPonto *p, int indice);
 
 /*@param: 
     tPonto *p: o ponteiro para o ponto p;

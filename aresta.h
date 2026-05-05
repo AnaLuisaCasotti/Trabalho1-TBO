@@ -15,6 +15,16 @@ tAresta* inicializaAresta(double dist, tPonto *v1, tPonto *v2);
 @return: um número double que representa a distância correspondente à aresta*/
 double retornaDistancia(tAresta *aresta);
 
+/*@param: tAresta *aresta: o ponteiro para a aresta
+@return: o indíce do ponto número 1 da aresta*/
+int retornaIndicePonto1(tAresta *aresta);
+
+/*@param: tAresta *aresta: o ponteiro para a aresta
+@return: o indíce do ponto número 2 da aresta*/
+int retornaIndicePonto2(tAresta *aresta);
+
+void imprimeAresta(tAresta *aresta);
+
 /*@param: tPonto *p: o ponteiro para o ponto p que será desalocado;*/
 void desalocaAresta(tAresta *aresta);
 

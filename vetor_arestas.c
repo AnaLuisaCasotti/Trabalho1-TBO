@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "vetor_arestas.h"
+#include "vetor_pontos.h"
 
 typedef struct VetorArestas {
     int tam;
@@ -60,6 +61,54 @@ void imprimeArestas(tVetorArestas *vetor){
         printf("%lf ", retornaDistancia(vetor->arestas[i]));
     }
     printf("\n");
+}
+
+void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
+    int unidos, ind1, ind2;
+
+    for(int i = 0; i < vetorArestas->tam; i++){
+        unidos = 0;
+
+        ind1 = retornaIndicePonto1(vetorArestas->arestas[i]);
+        ind2 = retornaIndicePonto2(vetorArestas->arestas[i]);
+
+        if(i == 0){
+            unionPontos(vetorPontos, ind1, ind2);
+            imprimeAresta(vetorArestas->arestas[i]);
+        }
+
+        else{
+            unidos = connectedPontos(vetorPontos, ind1, ind2);
+
+            if(unidos == 0){
+                unionPontos(vetorPontos, ind1, ind2);
+                imprimeAresta(vetorArestas->arestas[i]);
+            }
+
+            else{
+                excluiAresta(vetorArestas, i);
+                i--;
+            }
+        }
+
+    }
+
+    printf("unionArestas() chegou ao fim\n"); // teste
+}
+
+void excluiAresta(tVetorArestas *vetor, int indice){
+
+    tAresta *aresta_temp = vetor->arestas[indice];
+    
+    for(int i = indice; i <  vetor->tam - 1; i++){
+
+        vetor->arestas[i] = vetor->arestas[i+1];
+    }
+
+    vetor->tam--;
+    vetor->arestas[vetor->tam] = NULL; // Elimina a última posição do vetor que ficou sobrando
+
+    desalocaAresta(aresta_temp);
 }
 
 void desalocaVetorArestas(tVetorArestas *vetor){
