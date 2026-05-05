@@ -1,19 +1,11 @@
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-
-#include "ponto.h"
-#include "vetor_pontos.h"
-#include "vetor_arestas.h"
+#include "utils.h"
 
 /*  ###IMPORTANTE###
 rodar com gcc *.c -o main -lm (usei a biblioteca math.h)*/
 
 // Linha de comando:
 // ./trab1  entrada_teste.txt    3       saida.txt
-//  argv[0]   argv[1]    argv[2]    argv[3]
+//  argv[0]    argv[1]         argv[2]    argv[3]
 
 int main(int argc, char *argv[]){
 
@@ -31,45 +23,11 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    char *linha = NULL, *token, *nome_ponto;
-    size_t tamanho = 0;
-    double *coordenadas = NULL;
-    int qtd_coord;
-
     tVetorPontos *vetorPontos = criaVetorPontos();
-    tVetorArestas *vetorArestas = criaVetorArestas(3);
 
-    while (getline(&linha, &tamanho, entrada) != -1){
+    int qtd_pontos = leArquivoEntrada(entrada, vetorPontos); // Função retorna a qtd de pontos lidos no arquivo de entrada
 
-        qtd_coord = 0;
-        free(coordenadas);
-        coordenadas = NULL; // Reinicia o vetor de coordenadas temporário
-
-        nome_ponto = strtok(linha, ","); // Lê o nome do ponto
-        printf("Ponto %s", nome_ponto); // teste
-
-        while(1){
-            token = strtok(NULL, ","); // Lê a próxima coordenada do ponto atual
-
-            if (token == NULL) break; // Linha chegou ao fim
-
-            coordenadas = realloc(coordenadas, (qtd_coord + 1) * sizeof(double)); // Aumenta o tamanho alocado para o vetor
-            coordenadas[qtd_coord] = atof(token); // Transforma a string em um double
-
-            qtd_coord++;
-        }
-
-        for (int i = 0; i < qtd_coord; i++){
-            printf("; %.2f", coordenadas[i]); // teste
-        }
-
-        // Passar a função "criaPonto(nome_ponto, coordenadas)" aqui
-        tPonto *p = criaPonto(nome_ponto, coordenadas, qtd_coord);
-        // Após criado o ponto, inserir no vetor de pontos
-        adicionaPonto(vetorPontos, p);
-
-        printf("\n");
-    }
+    tVetorArestas *vetorArestas = criaVetorArestas(qtd_pontos);
 
     geraArestas(vetorPontos, vetorArestas);
     ordenaArestas(vetorArestas);
@@ -78,8 +36,6 @@ int main(int argc, char *argv[]){
     desalocaVetorPontos(vetorPontos);
     desalocaVetorArestas(vetorArestas);
 
-    free(coordenadas);
-    free(linha);
     fclose(entrada);
     
 

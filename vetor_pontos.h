@@ -1,5 +1,5 @@
-#ifndef vetor_pontos
-#define vetor_pontos
+#ifndef VETOR_PONTOS_H
+#define VETOR_PONTOS_H
 
 #include "ponto.h"
 #include "vetor_arestas.h"
