@@ -1,5 +1,5 @@
-#ifndef vetor_arestas
-#define vetor_arestas
+#ifndef VETOR_ARESTAS_H
+#define VETOR_ARESTAS_H
 
 #include "aresta.h"
 
