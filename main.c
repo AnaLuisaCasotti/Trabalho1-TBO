@@ -7,16 +7,17 @@ rodar com gcc *.c -o main -lm (usei a biblioteca math.h)*/
 // ./trab1  entrada_teste.txt    3       saida.txt
 //  argv[0]    argv[1]         argv[2]    argv[3]
 
-int main(int argc, char *argv[]){
+int main(){
 
     /*if (argc < 4) {
         printf("Quantidade de argumentos insuficiente\n");
         return 1;
-    }*/ // Descomentar quando formos realmente usar a linha de comando completa
+    } // Descomentar quando formos realmente usar a linha de comando completa
 
-    /* Leitura do arquivo de entrada - Ana */
+    Leitura do arquivo de entrada - Ana
 
     FILE *entrada = fopen(argv[1], "r");
+    int n = atoi(argv[2]);
 
     if (entrada == NULL) {
         printf("Erro ao abrir o arquivo\n");
@@ -34,6 +35,11 @@ int main(int argc, char *argv[]){
     imprimeArestas(vetorArestas);
 
     unionArestas(vetorArestas, vetorPontos);
+    removeMaioresArestas(vetorArestas, n);
+    resetaPontos(vetorPontos);
+    clusterizacao(vetorArestas, vetorPontos);
+
+    imprimeGrupos(vetorPontos);
     imprimeVetorPontos(vetorPontos);
 
     //excluiAresta(vetorArestas, 0);
@@ -43,11 +49,10 @@ int main(int argc, char *argv[]){
     desalocaVetorArestas(vetorArestas);
 
     fclose(entrada);
-    
 
-    /* Teste de criação dos pontos - Clarice 
+    Teste de criação dos pontos - Clarice 
     && Teste do vetor de pontos e de arestas - Maju*/
-/*
+
     tPonto *p1, *p2, *p3;
     double coord1[] = {10.8, 9.2, 8.3}, coord2[] = {4.8, 6.6, 9.0}, coord3[] = {9.9, 20.0, 16.0};
     char nome1[10], nome2[10], nome3[10];
@@ -65,7 +70,7 @@ int main(int argc, char *argv[]){
     printf("Distancia entre p2 e p3: %.2f\n", distanciaEuclidiana(p2, p3));
     printf("Distancia entre p1 e p3: %.2f\n\n", distanciaEuclidiana(p1, p3));
 
-    setIndice(p2, getIndice(p1));
+    //setIndice(p2, getIndiceAtual(p1));
 
     imprimePonto(p1, NULL);
     imprimePonto(p2, NULL);
@@ -81,10 +86,17 @@ int main(int argc, char *argv[]){
     geraArestas(vetorPontos, vetorArestas);
     ordenaArestas(vetorArestas);
     imprimeArestas(vetorArestas);
+    unionArestas(vetorArestas, vetorPontos);
+
+    removeMaioresArestas(vetorArestas, 2);
+    resetaPontos(vetorPontos);
+    clusterizacao(vetorArestas, vetorPontos);
+
+    printf("\nClusters:\n");
+    imprimeClusters(vetorPontos);
 
     desalocaVetorPontos(vetorPontos);
     desalocaVetorArestas(vetorArestas);
-    */
 
     return 0;
 }

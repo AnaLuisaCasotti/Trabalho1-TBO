@@ -64,20 +64,24 @@ void imprimeArestas(tVetorArestas *vetor){
 }
 
 void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
-    int unidos, ind1, ind2;
 
-    for(int i = 0; i < vetorArestas->tam; i++){
+    int i, unidos, ind1, ind2;
+
+    for(i = 0; i < vetorArestas->tam; i++){
+
         unidos = 0;
 
         ind1 = retornaIndicePonto1(vetorArestas->arestas[i]);
         ind2 = retornaIndicePonto2(vetorArestas->arestas[i]);
 
         if(i == 0){
+
             unionPontos(vetorPontos, ind1, ind2);
             imprimeAresta(vetorArestas->arestas[i]);
         }
 
         else{
+
             unidos = connectedPontos(vetorPontos, ind1, ind2);
 
             if(unidos == 0){
@@ -109,6 +113,29 @@ void excluiAresta(tVetorArestas *vetor, int indice){
     vetor->arestas[vetor->tam] = NULL; // Elimina a última posição do vetor que ficou sobrando
 
     desalocaAresta(aresta_temp);
+}
+
+void removeMaioresArestas(tVetorArestas *vetor, int n){
+
+    int i;
+
+    for(i = 0; i < n - 1; i++){
+
+        excluiAresta(vetor, vetor->tam - 1);
+    }
+}
+
+void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
+
+    int i;
+
+    for(i = 0; i < vetorArestas->tam; i++){
+
+        int p1 = retornaIndicePonto1(vetorArestas->arestas[i]);
+        int p2 = retornaIndicePonto2(vetorArestas->arestas[i]);
+
+        unionPontos(vetorPontos, p1, p2);
+    }
 }
 
 void desalocaVetorArestas(tVetorArestas *vetor){

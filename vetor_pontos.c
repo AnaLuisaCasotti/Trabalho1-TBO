@@ -59,15 +59,18 @@ int tamVetorPontos(tVetorPontos *vetor){
 }
 
 int findPontos(tVetorPontos *vetorPontos, int ind){
+
     while(getIndiceAtual(vetorPontos->pontos[ind]) != ind){
+
         setIndice(vetorPontos->pontos[ind], getIndiceAtual(vetorPontos->pontos[getIndiceAtual(vetorPontos->pontos[ind])])); // equivale ao id[i] = id[id[i]] so professor
-        ind = getIndiceAtual(vetorPontos->pontos[ind]); //buscar o pai até a raiz
+        ind = getIndiceAtual(vetorPontos->pontos[ind]);      // buscar o pai até a raiz
     }
 
-    return ind; //profundidade de ind acessos
+    return ind;   // profundidade de ind acessos
 }
 
 int connectedPontos(tVetorPontos *vetorPontos, int ind1, int ind2){
+
     int raiz1 = findPontos(vetorPontos, ind1);
     int raiz2 = findPontos(vetorPontos, ind2);
 
@@ -76,6 +79,7 @@ int connectedPontos(tVetorPontos *vetorPontos, int ind1, int ind2){
 }
 
 void unionPontos(tVetorPontos *vetorPontos, int ind1, int ind2){
+
     int i = findPontos(vetorPontos, ind1);
     int j = findPontos(vetorPontos, ind2);
     
@@ -92,12 +96,59 @@ void unionPontos(tVetorPontos *vetorPontos, int ind1, int ind2){
     }
 }
 
+void resetaPontos(tVetorPontos *vetor){
+
+    int i;
+
+    for(i = 0; i < vetor->tam; i++){
+
+        setIndice(vetor->pontos[i], i);
+        vetor->sz[i] = 1;
+    }
+}
+
 void imprimeVetorPontos(tVetorPontos *vetorPontos){
+    
     for(int i = 0; i < vetorPontos->tam; i++){
+
         imprimePonto(vetorPontos->pontos[i], NULL);
     }
 }
 
+void imprimeClusters(tVetorPontos *vetor){
+
+    int i, j;
+    int tam = tamVetorPontos(vetor);
+    int impresso[tam];
+
+    for(i = 0; i < tam; i++){
+
+        impresso[i] = 0;
+    }
+
+    for(i = 0; i < tam; i++){
+
+        if(impresso[i]){
+
+            continue;
+        }
+
+        int raiz = findPontos(vetor, i);
+
+        //printf("Grupo: ");
+
+        for(j = 0; j < tam; j++){
+
+            if(findPontos(vetor, j) == raiz){
+
+                printf("%d ", j);
+                impresso[j] = 1;
+            }
+        }
+
+        printf("\n");
+    }
+}
 
 void desalocaVetorPontos(tVetorPontos *vetor){
 

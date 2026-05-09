@@ -17,6 +17,7 @@ int leArquivoEntrada(FILE *entrada, tVetorPontos *vetor_pontos){
         printf("Ponto %s", nome_ponto); // teste
 
         while(1){
+            
             token = strtok(NULL, ","); // Lê a próxima coordenada do ponto atual
 
             if (token == NULL) break; // Linha chegou ao fim

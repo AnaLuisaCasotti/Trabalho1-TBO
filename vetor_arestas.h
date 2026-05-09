@@ -27,13 +27,24 @@ void ordenaArestas(tVetorArestas *vetor);
 void imprimeArestas(tVetorArestas *vetor);
 
 /*@param:
-    tVetorArestas *vetor: ponteiro para o vetor de arestas;*/
+    tVetorArestas *vetor: ponteiro para o vetor de arestas;
+    tVetorPontos *vetor: ponteiro para o vetor de pontos;*/
 void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas;
     int indice: indice da aresta a ser excluída;*/
 void excluiAresta(tVetorArestas *vetor, int indice);
+
+/*@param:
+    tVetorArestas *vetor: ponteiro pro vetor de arestas;
+    int n: n - 1 é a qtd de arestas a serem removidas;*/
+void removeMaioresArestas(tVetorArestas *vetor, int n);
+
+/*@param:
+    tVetorArestas *vetor: ponteiro para o vetor de arestas;
+    tVetorPontos *vetor: ponteiro para o vetor de pontos;*/
+void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas que será desalocado;*/

@@ -43,8 +43,16 @@ int connectedPontos(tVetorPontos *vetorPontos, int ind1, int ind2);
     int ind2: valor inteiro correspondente ao indíce do ponto 2;*/
 void unionPontos(tVetorPontos *vetorPontos, int ind1, int ind2);
 
+/*@param:
+    tVetorPontos *vetor: ponteiro pro vetor de pontos;*/
+void resetaPontos(tVetorPontos *vetor);
+
 /*IMPRESSÃO PARA TESTE*/
 void imprimeVetorPontos(tVetorPontos *vetorPontos);
+
+/*@param:
+    tVetorPontos *vetor: ponteiro pro vetor de pontos;*/
+void imprimeClusters(tVetorPontos *vetor);
 
 /*@param:
     tVetorPontos *vetor: ponteiro pro vetor de pontos que será desalocado;*/
