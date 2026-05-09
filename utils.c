@@ -14,7 +14,7 @@ int leArquivoEntrada(FILE *entrada, tVetorPontos *vetor_pontos){
         coordenadas = NULL; // Reinicia o vetor de coordenadas temporário
 
         nome_ponto = strtok(linha, ","); // Lê o nome do ponto
-        printf("Ponto %s", nome_ponto); // teste
+        //printf("Ponto %s", nome_ponto); // teste
 
         while(1){
             
@@ -28,9 +28,9 @@ int leArquivoEntrada(FILE *entrada, tVetorPontos *vetor_pontos){
             qtd_coord++;
         }
 
-        for (int i = 0; i < qtd_coord; i++){
-            printf("; %.2f", coordenadas[i]); // teste
-        }
+       /* for (int i = 0; i < qtd_coord; i++){
+            //printf("; %.2f", coordenadas[i]); // teste
+        }*/
 
         // Passar a função "criaPonto(nome_ponto, coordenadas)" aqui
         tPonto *p = criaPonto(nome_ponto, coordenadas, qtd_coord);
@@ -38,13 +38,13 @@ int leArquivoEntrada(FILE *entrada, tVetorPontos *vetor_pontos){
         adicionaPonto(vetor_pontos, p);
 
         qtd_pontos++;
-        printf("\n");
+        //printf("\n");
     }
 
     free(coordenadas);
     free(linha);
 
-    printf("qtd pontos = %d\n", qtd_pontos);
+    //printf("qtd pontos = %d\n", qtd_pontos);
     return(qtd_pontos);
 }
 

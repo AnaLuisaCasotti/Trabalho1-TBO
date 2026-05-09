@@ -29,7 +29,7 @@ void imprimeArestas(tVetorArestas *vetor);
 /*@param:
     tVetorArestas *vetor: ponteiro para o vetor de arestas;
     tVetorPontos *vetor: ponteiro para o vetor de pontos;*/
-void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos);
+tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas;
@@ -45,6 +45,9 @@ void removeMaioresArestas(tVetorArestas *vetor, int n);
     tVetorArestas *vetor: ponteiro para o vetor de arestas;
     tVetorPontos *vetor: ponteiro para o vetor de pontos;*/
 void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos);
+
+tAresta** getVetorAresta(tVetorArestas *vetor);
+
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas que será desalocado;*/

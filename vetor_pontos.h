@@ -9,6 +9,8 @@ typedef struct VetorPontos tVetorPontos;
 /*@return: Cria um vetor de pontos vazio*/
 tVetorPontos* criaVetorPontos();
 
+tPonto* getPonto(tVetorPontos *vetor, int indice);
+
 /*@param: 
     tVetorPontos *vetor: ponteiro pro vetor de pontos;
     tPonto *p: ponteiro pro ponto que será adicionado ao vetor;*/
@@ -51,8 +53,10 @@ void resetaPontos(tVetorPontos *vetor);
 void imprimeVetorPontos(tVetorPontos *vetorPontos);
 
 /*@param:
-    tVetorPontos *vetor: ponteiro pro vetor de pontos;*/
-void imprimeClusters(tVetorPontos *vetor);
+    tVetorPontos *vetor: ponteiro pro vetor de pontos;
+    int n: número de grupos de pontos;
+    FILE *saida: arquivo de saida*/
+void imprimeClusters(tVetorPontos *vetor, int n, FILE *saida);
 
 /*@param:
     tVetorPontos *vetor: ponteiro pro vetor de pontos que será desalocado;*/

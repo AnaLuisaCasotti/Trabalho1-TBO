@@ -71,13 +71,7 @@ void setIndiceOriginal(tPonto *p, int indice){
 
 void imprimePonto(tPonto *p, FILE *fp){
 
-    printf("Ponto: %s, indice original: %d, indice atual: %d\n", p->id, p->indice_original, p->indice_atual);
-
-    /*for(int i = 0; i < p->qntCoord; i++){
-        printf("dist %d: %.2f\n", i, p->coordenada[i]);
-    }*/
-
-    //fprintf(fp, "Ponto: %s, x: %f, y: %f\n", p->id, p->x, p->y);
+    fprintf(fp, "%s ", p->id);
 }
 
 void desalocaPonto(tPonto *p){

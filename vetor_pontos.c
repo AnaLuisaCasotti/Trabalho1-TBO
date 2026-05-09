@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "vetor_pontos.h"
 
 typedef struct VetorPontos {
@@ -21,6 +22,9 @@ tVetorPontos* criaVetorPontos(){
     return vetor;
 }
 
+tPonto* getPonto(tVetorPontos *vetor, int indice){
+    return vetor->pontos[indice];
+}
 void adicionaPonto(tVetorPontos *vetor, tPonto *p){
 
     if(vetor->tam == vetor->cap){
@@ -71,11 +75,7 @@ int findPontos(tVetorPontos *vetorPontos, int ind){
 
 int connectedPontos(tVetorPontos *vetorPontos, int ind1, int ind2){
 
-    int raiz1 = findPontos(vetorPontos, ind1);
-    int raiz2 = findPontos(vetorPontos, ind2);
-
-    if (raiz1 == raiz2) return 1;
-    else return 0;
+    return (findPontos(vetorPontos, ind1) == findPontos(vetorPontos, ind2));
 }
 
 void unionPontos(tVetorPontos *vetorPontos, int ind1, int ind2){
@@ -109,45 +109,106 @@ void resetaPontos(tVetorPontos *vetor){
 
 void imprimeVetorPontos(tVetorPontos *vetorPontos){
     
-    for(int i = 0; i < vetorPontos->tam; i++){
+    int i;
+
+    for(i = 0; i < vetorPontos->tam; i++){
 
         imprimePonto(vetorPontos->pontos[i], NULL);
     }
 }
 
-void imprimeClusters(tVetorPontos *vetor){
+static int comparaPontos(const void *a, const void *b){
+    
+    tPonto *p1 = *(tPonto**) a;
+    tPonto *p2 = *(tPonto**) b;
 
+    return strcmp(getIdPonto(p1), getIdPonto(p2));
+}
+
+static int comparaGrupos(const void *a, const void *b){
+    
+    tPonto **v1 = *(tPonto***) a;
+    tPonto **v2 = *(tPonto***) b;
+
+    return strcmp(getIdPonto(v1[0]), getIdPonto(v2[0]));
+}
+
+tPonto*** retornaCluster(tVetorPontos *vetor, int n){
+
+    int tam = vetor->tam;
+    tPonto ***grupos;
+    int adicionado[n], finds[tam];
+    int i, raiz, indx_grupo = 0, indx_ponto = 0;
+
+    for(i = 0; i < n; i++){
+
+        adicionado[i] = 0;
+    }
+
+    grupos = (tPonto***) calloc(n, sizeof(tPonto**));
+
+    for(int i = 0; i < tam; i++) finds[i] = -1; //raizes deafault = -1
+
+    for(i = 0; i < tam; i++){
+        raiz = findPontos(vetor, i); // acha a raiz do ponto
+        //[A: raiz 0, B: raiz 2; C: raiz 2, D: raiz 0]
+
+        if(finds[raiz] == -1){ //se o valor do find dessa raiz == -1, então ela ainda não foi setada
+            finds[raiz] = indx_grupo; // setando para todas as raízes um grupo
+
+            adicionado[indx_grupo] = 0; // quantidade de pontos em cada grupo atualmente
+            grupos[indx_grupo] = (tPonto**) calloc(vetor->sz[raiz]+1, sizeof(tPonto*)); //aloca o espaço de acordo com o sz do quick-union que a gnt já tinha
+
+            indx_grupo++;
+        }
+    }
+
+    for(i = 0; i < tam; i++){
+        raiz = findPontos(vetor, i);
+
+        indx_grupo = finds[raiz];
+        indx_ponto = adicionado[indx_grupo];
+
+        grupos[indx_grupo][indx_ponto] = vetor->pontos[i];
+
+        adicionado[indx_grupo]++;
+    }
+
+    for(i = 0; i < n; i++){
+        indx_ponto = adicionado[i];
+        qsort(grupos[i], indx_ponto, sizeof(tPonto*), comparaPontos);
+        grupos[i][indx_ponto] = NULL;
+    }
+
+    qsort(grupos, n, sizeof(tPonto**), comparaGrupos);
+    
+    return grupos;
+}
+
+void imprimeClusters(tVetorPontos *vetor, int n, FILE *saida){
+    
     int i, j;
-    int tam = tamVetorPontos(vetor);
-    int impresso[tam];
+    tPonto ***matriz = retornaCluster(vetor, n);
 
-    for(i = 0; i < tam; i++){
+    for(i = 0; i < n; i++){
+        
+        j = 0;
 
-        impresso[i] = 0;
-    }
+        while(matriz[i][j] != NULL){
 
-    for(i = 0; i < tam; i++){
-
-        if(impresso[i]){
-
-            continue;
+            imprimePonto(matriz[i][j], saida);
+            j++;
         }
 
-        int raiz = findPontos(vetor, i);
-
-        //printf("Grupo: ");
-
-        for(j = 0; j < tam; j++){
-
-            if(findPontos(vetor, j) == raiz){
-
-                printf("%d ", j);
-                impresso[j] = 1;
-            }
-        }
-
-        printf("\n");
+        fprintf(saida, "\n");
     }
+
+    for(i = 0; i < n; i++){
+
+        free(matriz[i]);
+    }
+    
+    free(matriz);
 }
 
 void desalocaVetorPontos(tVetorPontos *vetor){

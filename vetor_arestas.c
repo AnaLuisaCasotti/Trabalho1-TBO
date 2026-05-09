@@ -63,21 +63,27 @@ void imprimeArestas(tVetorArestas *vetor){
     printf("\n");
 }
 
-void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
+tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam){
 
     int i, unidos, ind1, ind2;
+    tPonto *p1, *p2;
+
+    tVetorArestas *novoVetor = criaVetorArestas(tam);
 
     for(i = 0; i < vetorArestas->tam; i++){
-
-        unidos = 0;
 
         ind1 = retornaIndicePonto1(vetorArestas->arestas[i]);
         ind2 = retornaIndicePonto2(vetorArestas->arestas[i]);
 
+        p1 = getPonto(vetorPontos, ind1);
+        p2 = getPonto(vetorPontos, ind2);
+
         if(i == 0){
+            tAresta* novaAresta = inicializaAresta(retornaDistancia(vetorArestas->arestas[i]), p1, p2);
 
             unionPontos(vetorPontos, ind1, ind2);
-            imprimeAresta(vetorArestas->arestas[i]);
+            adicionaAresta(novoVetor, novaAresta);
+            //imprimeAresta(vetorArestas->arestas[i]);
         }
 
         else{
@@ -85,19 +91,15 @@ void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
             unidos = connectedPontos(vetorPontos, ind1, ind2);
 
             if(unidos == 0){
+                tAresta* novaAresta = inicializaAresta(retornaDistancia(vetorArestas->arestas[i]), p1, p2);
                 unionPontos(vetorPontos, ind1, ind2);
-                imprimeAresta(vetorArestas->arestas[i]);
-            }
-
-            else{
-                excluiAresta(vetorArestas, i);
-                i--;
+                adicionaAresta(novoVetor, novaAresta);
+                //imprimeAresta(vetorArestas->arestas[i]);
             }
         }
-
     }
 
-    printf("unionArestas() chegou ao fim\n"); // teste
+    return novoVetor;
 }
 
 void excluiAresta(tVetorArestas *vetor, int indice){
@@ -136,6 +138,10 @@ void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
 
         unionPontos(vetorPontos, p1, p2);
     }
+}
+
+tAresta** getVetorAresta(tVetorArestas *vetor){
+    return vetor->arestas;
 }
 
 void desalocaVetorArestas(tVetorArestas *vetor){
