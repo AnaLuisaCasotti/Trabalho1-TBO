@@ -63,11 +63,16 @@ int tamVetorPontos(tVetorPontos *vetor){
 }
 
 int findPontos(tVetorPontos *vetorPontos, int ind){
-
+    int val = ind;
+    
     while(getIndiceAtual(vetorPontos->pontos[ind]) != ind){
 
-        setIndice(vetorPontos->pontos[ind], getIndiceAtual(vetorPontos->pontos[getIndiceAtual(vetorPontos->pontos[ind])])); // equivale ao id[i] = id[id[i]] so professor
+        setIndice(vetorPontos->pontos[ind], getIndiceAtual(vetorPontos->pontos[getIndiceAtual(vetorPontos->pontos[ind])])); // equivale ao id[i] = id[id[i]] do professor
         ind = getIndiceAtual(vetorPontos->pontos[ind]);      // buscar o pai até a raiz
+    }
+
+    while(getIndiceAtual(vetorPontos->pontos[val]) != ind){//segunda passada da compressão de caminho: deixar mais perto de O(1)
+        setIndice(vetorPontos->pontos[val], getIndiceAtual(vetorPontos->pontos[getIndiceAtual(vetorPontos->pontos[val])])); // equivale ao id[i] = id[id[i]] do professor
     }
 
     return ind;   // profundidade de ind acessos
