@@ -10,6 +10,27 @@ typedef struct VetorPontos {
     tPonto **pontos;
 } tVetorPontos;
 
+typedef struct Grupo {
+    int tam;
+    tPonto **pontos;
+} tGrupo;
+
+static int comparaPontos(const void *a, const void *b){
+    
+    tPonto *p1 = *(tPonto**) a;
+    tPonto *p2 = *(tPonto**) b;
+
+    return strcmp(getIdPonto(p1), getIdPonto(p2));
+}
+
+static int comparaGrupos(const void *a, const void *b){
+    
+    tGrupo *g1 = (tGrupo*) a;
+    tGrupo *g2 = (tGrupo*) b;
+
+    return strcmp(getIdPonto(g1->pontos[0]), getIdPonto(g2->pontos[0]));
+}
+
 tVetorPontos* criaVetorPontos(){
 
     tVetorPontos *vetor = malloc (sizeof(tVetorPontos));
@@ -23,6 +44,7 @@ tVetorPontos* criaVetorPontos(){
 }
 
 tPonto* getPonto(tVetorPontos *vetor, int indice){
+
     return vetor->pontos[indice];
 }
 void adicionaPonto(tVetorPontos *vetor, tPonto *p){
@@ -30,12 +52,11 @@ void adicionaPonto(tVetorPontos *vetor, tPonto *p){
     if(vetor->tam == vetor->cap){
 
         vetor->cap *= 2;
-        vetor->pontos = realloc (vetor->pontos, vetor->cap * sizeof(tPonto*));
+        vetor->pontos = realloc(vetor->pontos, vetor->cap * sizeof(tPonto*));
         vetor->sz = realloc(vetor->sz, vetor->cap * sizeof(int));
     }
 
     vetor->sz[vetor->tam] = 1;
-
     vetor->pontos[vetor->tam] = p;
     setIndiceOriginal(p, vetor->tam);
     vetor->tam++;
@@ -63,16 +84,18 @@ int tamVetorPontos(tVetorPontos *vetor){
 }
 
 int findPontos(tVetorPontos *vetorPontos, int ind){
+
     int val = ind;
     
     while(getIndiceAtual(vetorPontos->pontos[ind]) != ind){
 
         setIndice(vetorPontos->pontos[ind], getIndiceAtual(vetorPontos->pontos[getIndiceAtual(vetorPontos->pontos[ind])])); // equivale ao id[i] = id[id[i]] do professor
-        ind = getIndiceAtual(vetorPontos->pontos[ind]);      // buscar o pai até a raiz
+        ind = getIndiceAtual(vetorPontos->pontos[ind]);   // buscar o pai até a raiz
     }
 
-    while(getIndiceAtual(vetorPontos->pontos[val]) != ind){//segunda passada da compressão de caminho: deixar mais perto de O(1)
-        setIndice(vetorPontos->pontos[val], getIndiceAtual(vetorPontos->pontos[getIndiceAtual(vetorPontos->pontos[val])])); // equivale ao id[i] = id[id[i]] do professor
+    while(getIndiceAtual(vetorPontos->pontos[val]) != ind){   // segunda passada da compressão de caminho: deixar mais perto de O(1)
+
+        setIndice(vetorPontos->pontos[val], getIndiceAtual(vetorPontos->pontos[getIndiceAtual(vetorPontos->pontos[val])]));   // equivale ao id[i] = id[id[i]] do professor
     }
 
     return ind;   // profundidade de ind acessos
@@ -91,11 +114,13 @@ void unionPontos(tVetorPontos *vetorPontos, int ind1, int ind2){
     if(i == j) return;
 
     if(vetorPontos->sz[i] < vetorPontos->sz[j]){
+
         setIndice(vetorPontos->pontos[i], j);
         vetorPontos->sz[j] += vetorPontos->sz[i];
     }
 
     else{
+
         setIndice(vetorPontos->pontos[j], i);
         vetorPontos->sz[i] += vetorPontos->sz[j];
     }
@@ -122,98 +147,75 @@ void imprimeVetorPontos(tVetorPontos *vetorPontos){
     }
 }
 
-static int comparaPontos(const void *a, const void *b){
-    
-    tPonto *p1 = *(tPonto**) a;
-    tPonto *p2 = *(tPonto**) b;
+tGrupo* retornaGrupo(tVetorPontos *vetor, int n){
 
-    return strcmp(getIdPonto(p1), getIdPonto(p2));
-}
+    int i, raiz, idGrupo = 0, idPonto = 0, tam = vetor->tam, adicionado[n];
+    int grupo[tam];
 
-static int comparaGrupos(const void *a, const void *b){
-    
-    tPonto **v1 = *(tPonto***) a;
-    tPonto **v2 = *(tPonto***) b;
-
-    return strcmp(getIdPonto(v1[0]), getIdPonto(v2[0]));
-}
-
-tPonto*** retornaCluster(tVetorPontos *vetor, int n){
-
-    int tam = vetor->tam;
-    tPonto ***grupos;
-    int adicionado[n], finds[tam];
-    int i, raiz, indx_grupo = 0, indx_ponto = 0;
+    tGrupo *grupos = malloc(n * sizeof(tGrupo));
 
     for(i = 0; i < n; i++){
 
         adicionado[i] = 0;
     }
 
-    grupos = (tPonto***) calloc(n, sizeof(tPonto**));
+    for(i = 0; i < tam; i++){
 
-    for(int i = 0; i < tam; i++) finds[i] = -1; //raizes deafault = -1
+        grupo[i] = -1;
+    }
 
     for(i = 0; i < tam; i++){
-        raiz = findPontos(vetor, i); // acha a raiz do ponto
-        //[A: raiz 0, B: raiz 2; C: raiz 2, D: raiz 0]
 
-        if(finds[raiz] == -1){ //se o valor do find dessa raiz == -1, então ela ainda não foi setada
-            finds[raiz] = indx_grupo; // setando para todas as raízes um grupo
+        raiz = findPontos(vetor, i);
 
-            adicionado[indx_grupo] = 0; // quantidade de pontos em cada grupo atualmente
-            grupos[indx_grupo] = (tPonto**) calloc(vetor->sz[raiz]+1, sizeof(tPonto*)); //aloca o espaço de acordo com o sz do quick-union que a gnt já tinha
+        if(grupo[raiz] == -1){
 
-            indx_grupo++;
+            grupo[raiz] = idGrupo;
+            grupos[idGrupo].tam = vetor->sz[raiz];
+            grupos[idGrupo].pontos = malloc((vetor->sz[raiz] + 1) * sizeof(tPonto*));
+            idGrupo++;
         }
     }
 
     for(i = 0; i < tam; i++){
+
         raiz = findPontos(vetor, i);
 
-        indx_grupo = finds[raiz];
-        indx_ponto = adicionado[indx_grupo];
+        idGrupo = grupo[raiz];
+        idPonto = adicionado[idGrupo];
 
-        grupos[indx_grupo][indx_ponto] = vetor->pontos[i];
-
-        adicionado[indx_grupo]++;
+        grupos[idGrupo].pontos[idPonto] = vetor->pontos[i];
+        adicionado[idGrupo]++;
     }
 
     for(i = 0; i < n; i++){
-        indx_ponto = adicionado[i];
-        qsort(grupos[i], indx_ponto, sizeof(tPonto*), comparaPontos);
-        grupos[i][indx_ponto] = NULL;
+
+        qsort(grupos[i].pontos, grupos[i].tam, sizeof(tPonto*), comparaPontos);
+        grupos[i].pontos[grupos[i].tam] = NULL;
     }
 
-    qsort(grupos, n, sizeof(tPonto**), comparaGrupos);
-    
+    qsort(grupos, n, sizeof(tGrupo), comparaGrupos);
+
     return grupos;
 }
 
-void imprimeClusters(tVetorPontos *vetor, int n, FILE *saida){
+void imprimeGrupos(tVetorPontos *vetor, int n, FILE *saida){
     
     int i, j;
-    tPonto ***matriz = retornaCluster(vetor, n);
+    tGrupo *grupos = retornaGrupo(vetor, n);
 
     for(i = 0; i < n; i++){
         
         j = 0;
 
-        while(matriz[i][j] != NULL){
+        while(grupos[i].pontos[j] != NULL){
 
-            imprimePonto(matriz[i][j], saida);
+            imprimePonto(grupos[i].pontos[j], saida);
             j++;
         }
 
         fprintf(saida, "\n");
     }
-
-    for(i = 0; i < n; i++){
-
-        free(matriz[i]);
-    }
-    
-    free(matriz);
 }
 
 void desalocaVetorPontos(tVetorPontos *vetor){

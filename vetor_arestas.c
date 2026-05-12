@@ -79,11 +79,11 @@ tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPont
         p2 = getPonto(vetorPontos, ind2);
 
         if(i == 0){
+
             tAresta* novaAresta = inicializaAresta(retornaDistancia(vetorArestas->arestas[i]), p1, p2);
 
             unionPontos(vetorPontos, ind1, ind2);
             adicionaAresta(novoVetor, novaAresta);
-            //imprimeAresta(vetorArestas->arestas[i]);
         }
 
         else{
@@ -91,10 +91,10 @@ tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPont
             unidos = connectedPontos(vetorPontos, ind1, ind2);
 
             if(unidos == 0){
+
                 tAresta* novaAresta = inicializaAresta(retornaDistancia(vetorArestas->arestas[i]), p1, p2);
                 unionPontos(vetorPontos, ind1, ind2);
                 adicionaAresta(novoVetor, novaAresta);
-                //imprimeAresta(vetorArestas->arestas[i]);
             }
         }
     }
@@ -141,13 +141,14 @@ void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
 }
 
 tAresta** getVetorAresta(tVetorArestas *vetor){
+    
     return vetor->arestas;
 }
 
 void desalocaVetorArestas(tVetorArestas *vetor){
 
     int i;
-
+    
     for(i = 0; i < vetor->tam; i++){
 
         desalocaAresta(vetor->arestas[i]);

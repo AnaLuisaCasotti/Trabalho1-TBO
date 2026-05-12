@@ -17,9 +17,4 @@
   @return: o número de pontos lidos do arquivo */
 int leArquivoEntrada(FILE *entrada, tVetorPontos *vetor_pontos);
 
-/*@param:
-    FILE *saida: arquivo de saida para ser preenchido;
-    tVetorArestas *vetor_arestas: vetor com as arestas ordenadas e separadas em grupos? */
-void escreveArquivoSaida(FILE *saida, tVetorArestas *vetor_arestas);
-
 #endif

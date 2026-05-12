@@ -5,6 +5,7 @@
 #include "vetor_arestas.h"
 
 typedef struct VetorPontos tVetorPontos;
+typedef struct Grupo tGrupo;
 
 /*@return: Cria um vetor de pontos vazio*/
 tVetorPontos* criaVetorPontos();
@@ -54,9 +55,15 @@ void imprimeVetorPontos(tVetorPontos *vetorPontos);
 
 /*@param:
     tVetorPontos *vetor: ponteiro pro vetor de pontos;
+    int n: número de grupos que serão criados;
+@return: um grupo de pontos;*/
+tGrupo* retornaGrupo(tVetorPontos *vetor, int n);
+
+/*@param:
+    tVetorPontos *vetor: ponteiro pro vetor de pontos;
     int n: número de grupos de pontos;
     FILE *saida: arquivo de saida*/
-void imprimeClusters(tVetorPontos *vetor, int n, FILE *saida);
+void imprimeGrupos(tVetorPontos *vetor, int n, FILE *saida);
 
 /*@param:
     tVetorPontos *vetor: ponteiro pro vetor de pontos que será desalocado;*/

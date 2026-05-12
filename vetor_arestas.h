@@ -46,8 +46,9 @@ void removeMaioresArestas(tVetorArestas *vetor, int n);
     tVetorPontos *vetor: ponteiro para o vetor de pontos;*/
 void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos);
 
+/*@param:
+    tVetorArestas *vetor: ponteiro pro vetor de arestas;*/
 tAresta** getVetorAresta(tVetorArestas *vetor);
-
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas que será desalocado;*/

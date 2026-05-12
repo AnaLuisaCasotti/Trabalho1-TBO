@@ -47,5 +47,3 @@ int leArquivoEntrada(FILE *entrada, tVetorPontos *vetor_pontos){
     //printf("qtd pontos = %d\n", qtd_pontos);
     return(qtd_pontos);
 }
-
-void escreveArquivoSaida(FILE *saida, tVetorArestas *vetor_arestas);

@@ -13,9 +13,7 @@ typedef struct Ponto {
 
 tPonto* criaPonto(char *id, double *coordenadas, int qntCoord){
 
-    tPonto *p;
-
-    p = (tPonto*) calloc(1, sizeof(tPonto));
+    tPonto *p = (tPonto*) calloc(1, sizeof(tPonto));
 
     p->id = (char*) calloc(strlen(id)+1, sizeof(char));
     strcpy(p->id, id);
@@ -75,6 +73,7 @@ void imprimePonto(tPonto *p, FILE *fp){
 }
 
 void desalocaPonto(tPonto *p){
+    
     free(p->id);
     free(p->coordenada);
     free(p);
