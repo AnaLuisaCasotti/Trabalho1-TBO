@@ -17,6 +17,12 @@ tVetorArestas* criaVetorArestas(int numPontos);
     taresta *aresta: ponteiro pra aresta que será adicionada ao vetor;*/
 void adicionaAresta(tVetorArestas *vetor, tAresta *aresta);
 
+void constroiHeap(tVetorArestas *vetor);
+
+void heapifyDown(tVetorArestas *vetor, int i);
+
+tAresta *removeMin(tVetorArestas *heap);
+
 /*@param:
     tVetor#include "vetor_pontos.h"
 Arestas *vetor: ponteiro pro vetor de arestas;*/

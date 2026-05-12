@@ -23,6 +23,8 @@ int retornaIndicePonto1(tAresta *aresta);
 @return: o indíce do ponto número 2 da aresta*/
 int retornaIndicePonto2(tAresta *aresta);
 
+void trocaArestas(tAresta *a, tAresta *b);
+
 /*@param: tPonto *p: o ponteiro para o ponto p que será desalocado;*/
 void desalocaAresta(tAresta *aresta);
 

@@ -45,6 +45,57 @@ void adicionaAresta(tVetorArestas *vetor, tAresta *aresta){
     vetor->tam++;
 }
 
+void constroiHeap(tVetorArestas *vetor){
+
+    for (int i = vetor->tam/2; i >= 0; i--){
+        heapifyDown(vetor, i);
+    }
+}
+
+// Compara o pai (vetor[i]) com os filhos.
+// Se algum filho for menor, troca de posição com ele
+void heapifyDown(tVetorArestas *vetor, int i){
+
+    while(1){
+
+        int menor = i;
+        int tam = vetor->tam;
+
+        int esq = 2*i + 1; // filho esq
+        int dir = 2*i + 2; // filho dir
+
+        if (esq < tam){
+            if (retornaDistancia(vetor->arestas[esq]) < retornaDistancia(vetor->arestas[menor])){
+                menor = esq;
+            }
+        }
+
+        if (dir < tam){
+            if (retornaDistancia(vetor->arestas[dir]) <  retornaDistancia(vetor->arestas[menor])){
+                menor = dir;
+            }
+        }
+
+        if (menor == i) break; // Para quando a aresta está no seu devido lugar
+
+        trocaArestas(vetor->arestas[i], vetor->arestas[menor]);
+
+        i = menor;
+    }
+}
+
+tAresta *removeMin(tVetorArestas *heap){
+    tAresta *min = heap->arestas[0]; // Topo da heap: menor aresta
+
+    heap->tam--;
+
+    heap->arestas[0] = heap->arestas[heap->tam]; // Joga a última aresta no topo. Remove menor aresta
+
+    heapifyDown(heap, 0); // Reorganiza a min heap
+
+    return min;
+}
+
 void ordenaArestas(tVetorArestas *vetor){
 
     qsort(vetor->arestas, vetor->tam, sizeof(tAresta*), comparaAresta);
@@ -65,12 +116,36 @@ void imprimeArestas(tVetorArestas *vetor){
 
 tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam){
 
-    int i, unidos, ind1, ind2;
-    tPonto *p1, *p2;
+    int unidos, ind1, ind2;
+    //tPonto *p1, *p2;
 
-    tVetorArestas *novoVetor = criaVetorArestas(tam);
+    tVetorArestas *novoVetor = criaVetorArestas(tam-1);
 
-    for(i = 0; i < vetorArestas->tam; i++){
+    while(vetorArestas->tam > 0 && novoVetor->tam < tam-1){
+
+        tAresta *a = removeMin(vetorArestas); // Remove aresta no topo da heap (menor aresta)
+
+        ind1 = retornaIndicePonto1(a);
+        ind2 = retornaIndicePonto2(a);
+
+        unidos = connectedPontos(vetorPontos, ind1, ind2); // Verifica se os pontos já estão conectados
+
+        if(unidos == 0){
+
+            //tAresta* novaAresta = inicializaAresta(retornaDistancia(a), p1, p2);
+            unionPontos(vetorPontos, ind1, ind2);
+            adicionaAresta(novoVetor, a);
+        }
+
+        else{
+            desalocaAresta(a);
+        }
+    }
+
+    return novoVetor;
+
+    /*for(i = 0; i < vetorArestas->tam; i++){
+
 
         ind1 = retornaIndicePonto1(vetorArestas->arestas[i]);
         ind2 = retornaIndicePonto2(vetorArestas->arestas[i]);
@@ -97,9 +172,7 @@ tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPont
                 adicionaAresta(novoVetor, novaAresta);
             }
         }
-    }
-
-    return novoVetor;
+    }*/
 }
 
 void excluiAresta(tVetorArestas *vetor, int indice){
