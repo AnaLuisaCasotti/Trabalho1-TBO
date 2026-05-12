@@ -35,6 +35,12 @@ double retornaDistancia(tAresta *aresta){
     return aresta->dist;
 }
 
+void trocaArestas(tAresta *a, tAresta *b){
+    tAresta temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 void desalocaAresta(tAresta *aresta){
 
     free(aresta);

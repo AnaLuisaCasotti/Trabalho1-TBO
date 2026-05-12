@@ -16,10 +16,11 @@ int main(int argc, char *argv[]){
 
     tVetorArestas *vetorArestas = criaVetorArestas(qtd_pontos);
 
-    geraArestas(vetorPontos, vetorArestas);
-    ordenaArestas(vetorArestas);
+    geraArestas(vetorPontos, vetorArestas); 
+    constroiHeap(vetorArestas); // Vetor transformado em uma Min-Heap usando "constroiHeap(tVetorAresta *vetor)"
 
     tVetorArestas *novoVetor = unionArestas(vetorArestas, vetorPontos, qtd_pontos);
+    ordenaArestas(novoVetor); // Ordena só a MST (qtd_pontos - 1 elementos). Antes estávamos ordenando todas as arestas geradas, o que era um número muito maior
     
     removeMaioresArestas(novoVetor, n);
     resetaPontos(vetorPontos);
