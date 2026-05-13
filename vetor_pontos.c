@@ -142,8 +142,9 @@ void imprimeVetorPontos(tVetorPontos *vetorPontos){
     int i;
 
     for(i = 0; i < vetorPontos->tam; i++){
+        printf("Ponto: %s, indice final: %d\n", getIdPonto(vetorPontos->pontos[i]), getIndiceAtual(vetorPontos->pontos[i]));
 
-        imprimePonto(vetorPontos->pontos[i], NULL);
+        //imprimePonto(vetorPontos->pontos[i], NULL);
     }
 }
 
@@ -216,6 +217,16 @@ void imprimeGrupos(tVetorPontos *vetor, int n, FILE *saida){
 
         fprintf(saida, "\n");
     }
+
+    desalocaGrupos(grupos, n);
+}
+
+void desalocaGrupos(tGrupo *grupos, int n){
+    for(int i = 0; i < n; i++){
+        free(grupos[i].pontos);
+    }
+
+    free(grupos);
 }
 
 void desalocaVetorPontos(tVetorPontos *vetor){

@@ -65,6 +65,8 @@ tGrupo* retornaGrupo(tVetorPontos *vetor, int n);
     FILE *saida: arquivo de saida*/
 void imprimeGrupos(tVetorPontos *vetor, int n, FILE *saida);
 
+void desalocaGrupos(tGrupo *grupos, int n);
+
 /*@param:
     tVetorPontos *vetor: ponteiro pro vetor de pontos que será desalocado;*/
 void desalocaVetorPontos(tVetorPontos *vetor);

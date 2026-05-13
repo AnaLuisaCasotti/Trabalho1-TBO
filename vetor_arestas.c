@@ -116,12 +116,16 @@ void imprimeArestas(tVetorArestas *vetor){
 
 tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam){
 
-    int unidos, ind1, ind2;
+    int unidos, ind1, ind2, adicionados = 0;
     //tPonto *p1, *p2;
 
-    tVetorArestas *novoVetor = criaVetorArestas(tam-1);
+    tVetorArestas *novoVetor = NULL;
 
-    while(vetorArestas->tam > 0 && novoVetor->tam < tam-1){
+    //tVetorArestas *novoVetor = criaVetorArestas(tam-1);
+
+    int completo = tamVetorPontos(vetorPontos) - tam;
+
+    while(completo > adicionados){
 
         tAresta *a = removeMin(vetorArestas); // Remove aresta no topo da heap (menor aresta)
 
@@ -134,12 +138,11 @@ tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPont
 
             //tAresta* novaAresta = inicializaAresta(retornaDistancia(a), p1, p2);
             unionPontos(vetorPontos, ind1, ind2);
-            adicionaAresta(novoVetor, a);
+            //adicionaAresta(novoVetor, a);
+            adicionados++;
         }
 
-        else{
-            desalocaAresta(a);
-        }
+        desalocaAresta(a);
     }
 
     return novoVetor;
