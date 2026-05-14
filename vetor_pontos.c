@@ -155,12 +155,11 @@ tGrupo* retornaGrupo(tVetorPontos *vetor, int n){
 
     tGrupo *grupos = malloc(n * sizeof(tGrupo));
 
-    for(i = 0; i < n; i++){
-
-        adicionado[i] = 0;
-    }
-
     for(i = 0; i < tam; i++){
+
+        if(i < n){
+            adicionado[i] = 0;
+        }
 
         grupo[i] = -1;
     }
@@ -176,6 +175,8 @@ tGrupo* retornaGrupo(tVetorPontos *vetor, int n){
             grupos[idGrupo].pontos = malloc((vetor->sz[raiz] + 1) * sizeof(tPonto*));
             idGrupo++;
         }
+
+        if(idGrupo >= n) break;
     }
 
     for(i = 0; i < tam; i++){
