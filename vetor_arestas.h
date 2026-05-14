@@ -17,47 +17,34 @@ tVetorArestas* criaVetorArestas(int numPontos);
     taresta *aresta: ponteiro pra aresta que será adicionada ao vetor;*/
 void adicionaAresta(tVetorArestas *vetor, tAresta *aresta);
 
+/*@param:
+    tVetorArestas *vetor: ponteiro pro vetor de arestas;
+####@explicação: ####
+    Utiliza propriedades da Estrutura de Dados Heap para ordenar 
+    o vetor de arestas, por meio da função heapifyDown*/
 void constroiHeap(tVetorArestas *vetor);
 
+/*@param:
+    tVetorArestas *vetor: ponteiro pro vetor de arestas;
+    int i: índice do elemento que deverá ser reorganizado dentro da heap*/
 void heapifyDown(tVetorArestas *vetor, int i);
 
-tAresta *removeMin(tVetorArestas *heap);
-
 /*@param:
-    tVetor#include "vetor_pontos.h"
-Arestas *vetor: ponteiro pro vetor de arestas;*/
-void ordenaArestas(tVetorArestas *vetor);
-
-/*@param:
-    tVetorArestas *vetor: ponteiro pro vetor de arestas;*/
-void imprimeArestas(tVetorArestas *vetor);
+    tVetorArestas *vetor: ponteiro para o vetor de arestas;
+@return: A menor aresta presente na heap, que acabou de ser retirada do vetor*/
+tAresta *removeMin(tVetorArestas *vetor);
 
 /*@param:
     tVetorArestas *vetor: ponteiro para o vetor de arestas;
     tVetorPontos *vetor: ponteiro para o vetor de pontos;*/
-tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam);
-
-/*@param:
-    tVetorArestas *vetor: ponteiro pro vetor de arestas;
-    int indice: indice da aresta a ser excluída;*/
-void excluiAresta(tVetorArestas *vetor, int indice);
-
-/*@param:
-    tVetorArestas *vetor: ponteiro pro vetor de arestas;
-    int n: n - 1 é a qtd de arestas a serem removidas;*/
-void removeMaioresArestas(tVetorArestas *vetor, int n);
-
-/*@param:
-    tVetorArestas *vetor: ponteiro para o vetor de arestas;
-    tVetorPontos *vetor: ponteiro para o vetor de pontos;*/
-void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos);
-
-/*@param:
-    tVetorArestas *vetor: ponteiro pro vetor de arestas;*/
-tAresta** getVetorAresta(tVetorArestas *vetor);
+void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas que será desalocado;*/
 void desalocaVetorArestas(tVetorArestas *vetor);
+
+/*@param:
+    tVetorArestas *vetor: ponteiro pro vetor de arestas;*/
+void imprimeArestas(tVetorArestas *vetor);
 
 #endif

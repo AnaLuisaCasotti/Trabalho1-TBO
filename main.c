@@ -19,12 +19,9 @@ int main(int argc, char *argv[]){
     geraArestas(vetorPontos, vetorArestas); 
     constroiHeap(vetorArestas); // Vetor transformado em uma Min-Heap usando "constroiHeap(tVetorAresta *vetor)"
 
-    tVetorArestas *novoVetor = unionArestas(vetorArestas, vetorPontos, n);
-    //ordenaArestas(novoVetor); // Ordena só a MST (qtd_pontos - 1 elementos). Antes estávamos ordenando todas as arestas geradas, o que era um número muito maior
+    unionArestas(vetorArestas, vetorPontos, n);
     
-    //removeMaioresArestas(novoVetor, n);
     //resetaPontos(vetorPontos);
-    //clusterizacao(novoVetor, vetorPontos);
 
     FILE *saida = fopen(argv[3], "w");
     
@@ -32,7 +29,6 @@ int main(int argc, char *argv[]){
     
     desalocaVetorPontos(vetorPontos);
     desalocaVetorArestas(vetorArestas);
-    //desalocaVetorArestas(novoVetor);
 
     fclose(entrada);
     fclose(saida);

@@ -9,25 +9,6 @@ typedef struct VetorArestas {
     tAresta **arestas;
 } tVetorArestas;
 
-static int comparaAresta(const void *a, const void *b){
-
-    tAresta *a1 = *(tAresta**) a;
-    tAresta *a2 = *(tAresta**) b;
-
-    if(retornaDistancia(a1) < retornaDistancia(a2)){
-
-        return -1;
-    }
-    else if(retornaDistancia(a1) > retornaDistancia(a2)){
-
-        return 1;
-    }
-    else{
-
-        return 0;
-    }
-}
-
 tVetorArestas* criaVetorArestas(int numPontos){
 
     tVetorArestas *vetor = malloc (sizeof(tVetorArestas));
@@ -84,46 +65,24 @@ void heapifyDown(tVetorArestas *vetor, int i){
     }
 }
 
-tAresta *removeMin(tVetorArestas *heap){
-    tAresta *min = heap->arestas[0]; // Topo da heap: menor aresta
+tAresta *removeMin(tVetorArestas *vetor){
+    tAresta *min = vetor->arestas[0]; // Topo da heap: menor aresta
 
-    heap->tam--;
+    vetor->tam--;
 
-    heap->arestas[0] = heap->arestas[heap->tam]; // Joga a última aresta no topo. Remove menor aresta
+    vetor->arestas[0] = vetor->arestas[vetor->tam]; // Joga a última aresta no topo. Remove menor aresta
 
-    heapifyDown(heap, 0); // Reorganiza a min heap
+    heapifyDown(vetor, 0); // Reorganiza a min heap
 
     return min;
 }
 
-void ordenaArestas(tVetorArestas *vetor){
-
-    qsort(vetor->arestas, vetor->tam, sizeof(tAresta*), comparaAresta);
-}
-
-void imprimeArestas(tVetorArestas *vetor){
-
-    int i;
-
-    printf("\nArestas ordenadas:\n");
-
-    for(i = 0; i < vetor->tam; i++){
-
-        printf("%lf ", retornaDistancia(vetor->arestas[i]));
-    }
-    printf("\n");
-}
-
-tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam){
+void unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos, int tam){
 
     int unidos, ind1, ind2, adicionados = 0;
-    //tPonto *p1, *p2;
 
-    tVetorArestas *novoVetor = NULL;
-
-    //tVetorArestas *novoVetor = criaVetorArestas(tam-1);
-
-    int completo = tamVetorPontos(vetorPontos) - tam;
+    int completo = tamVetorPontos(vetorPontos) - tam; // Cálculo da quantidade final de arestas válidas e que serão utilizadas nas uniões 
+    // O cálculo já considera a remoção das k-1 maiores arestas que seriam eliminadas depois
 
     while(completo > adicionados){
 
@@ -135,90 +94,12 @@ tVetorArestas* unionArestas(tVetorArestas *vetorArestas, tVetorPontos *vetorPont
         unidos = connectedPontos(vetorPontos, ind1, ind2); // Verifica se os pontos já estão conectados
 
         if(unidos == 0){
-
-            //tAresta* novaAresta = inicializaAresta(retornaDistancia(a), p1, p2);
             unionPontos(vetorPontos, ind1, ind2);
-            //adicionaAresta(novoVetor, a);
             adicionados++;
         }
 
         desalocaAresta(a);
     }
-
-    return novoVetor;
-
-    /*for(i = 0; i < vetorArestas->tam; i++){
-
-
-        ind1 = retornaIndicePonto1(vetorArestas->arestas[i]);
-        ind2 = retornaIndicePonto2(vetorArestas->arestas[i]);
-
-        p1 = getPonto(vetorPontos, ind1);
-        p2 = getPonto(vetorPontos, ind2);
-
-        if(i == 0){
-
-            tAresta* novaAresta = inicializaAresta(retornaDistancia(vetorArestas->arestas[i]), p1, p2);
-
-            unionPontos(vetorPontos, ind1, ind2);
-            adicionaAresta(novoVetor, novaAresta);
-        }
-
-        else{
-
-            unidos = connectedPontos(vetorPontos, ind1, ind2);
-
-            if(unidos == 0){
-
-                tAresta* novaAresta = inicializaAresta(retornaDistancia(vetorArestas->arestas[i]), p1, p2);
-                unionPontos(vetorPontos, ind1, ind2);
-                adicionaAresta(novoVetor, novaAresta);
-            }
-        }
-    }*/
-}
-
-void excluiAresta(tVetorArestas *vetor, int indice){
-
-    tAresta *aresta_temp = vetor->arestas[indice];
-    
-    for(int i = indice; i <  vetor->tam - 1; i++){
-
-        vetor->arestas[i] = vetor->arestas[i+1];
-    }
-
-    vetor->tam--;
-    vetor->arestas[vetor->tam] = NULL; // Elimina a última posição do vetor que ficou sobrando
-
-    desalocaAresta(aresta_temp);
-}
-
-void removeMaioresArestas(tVetorArestas *vetor, int n){
-
-    int i;
-
-    for(i = 0; i < n - 1; i++){
-
-        excluiAresta(vetor, vetor->tam - 1);
-    }
-}
-
-void clusterizacao(tVetorArestas *vetorArestas, tVetorPontos *vetorPontos){
-
-    int i;
-
-    for(i = 0; i < vetorArestas->tam; i++){
-
-        int p1 = retornaIndicePonto1(vetorArestas->arestas[i]);
-        int p2 = retornaIndicePonto2(vetorArestas->arestas[i]);
-
-        unionPontos(vetorPontos, p1, p2);
-    }
-}
-
-tAresta** getVetorAresta(tVetorArestas *vetor){
-    
-    return vetor->arestas;
 }
 
 void desalocaVetorArestas(tVetorArestas *vetor){
@@ -232,4 +113,17 @@ void desalocaVetorArestas(tVetorArestas *vetor){
 
     free(vetor->arestas);
     free(vetor);
+}
+
+void imprimeArestas(tVetorArestas *vetor){
+
+    int i;
+
+    printf("\nArestas ordenadas:\n");
+
+    for(i = 0; i < vetor->tam; i++){
+
+        printf("%lf ", retornaDistancia(vetor->arestas[i]));
+    }
+    printf("\n");
 }
