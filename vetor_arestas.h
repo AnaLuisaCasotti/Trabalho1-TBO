@@ -19,18 +19,23 @@ void adicionaAresta(tVetorArestas *vetor, tAresta *aresta);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas;
-####@explicação: ####
+#### @explicação: ####
     Utiliza propriedades da Estrutura de Dados Heap para ordenar 
     o vetor de arestas, por meio da função heapifyDown*/
 void constroiHeap(tVetorArestas *vetor);
 
 /*@param:
     tVetorArestas *vetor: ponteiro pro vetor de arestas;
-    int i: índice do elemento que deverá ser reorganizado dentro da heap*/
+    int i: índice do elemento que deverá ser reorganizado dentro da heap;
+#### @explicação: ####
+    Na heap, vai "descendo" o elemento (inicialmente na posição i) até que ele esteja na
+    posição correta, mantendo a relação de que cada pai não é maior que os filhos (Min-Heap)*/
 void heapifyDown(tVetorArestas *vetor, int i);
 
 /*@param:
     tVetorArestas *vetor: ponteiro para o vetor de arestas;
+#### @explicação: ####
+    Remove o menor elemento da heap (priemiro elemento do vetor), depois reorganiza a heap.
 @return: A menor aresta presente na heap, que acabou de ser retirada do vetor*/
 tAresta *removeMin(tVetorArestas *vetor);
 

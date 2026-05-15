@@ -10,6 +10,9 @@ typedef struct Grupo tGrupo;
 /*@return: Cria um vetor de pontos vazio*/
 tVetorPontos* criaVetorPontos();
 
+/*@param:
+    tVetorPontos *vetor: ponteiro para o vetor de pontos;
+    int indice: valor inteiro correspondente ao índice ponto que será encontrado;*/
 tPonto* getPonto(tVetorPontos *vetor, int indice);
 
 /*@param: 
@@ -35,15 +38,15 @@ int findPontos(tVetorPontos *vetorPontos, int ind);
 
 /*@param:
     tVetorPontos *vetorPontos: ponteiro pro vetor de pontos;
-    int ind1: valor inteiro correspondente ao indíce do ponto 1;
-    int ind2: valor inteiro correspondente ao indíce do ponto 2;
+    int ind1: valor inteiro correspondente ao índice do ponto 1;
+    int ind2: valor inteiro correspondente ao índice do ponto 2;
 @return: 1 se estiverem conectados, 0 caso contrário*/
 int connectedPontos(tVetorPontos *vetorPontos, int ind1, int ind2);
 
 /*@param:
     tVetorPontos *vetor: ponteiro pro vetor de pontos;
-    int ind1: valor inteiro correspondente ao indíce do ponto 1;
-    int ind2: valor inteiro correspondente ao indíce do ponto 2;*/
+    int ind1: valor inteiro correspondente ao índice do ponto 1;
+    int ind2: valor inteiro correspondente ao índice do ponto 2;*/
 void unionPontos(tVetorPontos *vetorPontos, int ind1, int ind2);
 
 /*@param:
@@ -65,6 +68,9 @@ tGrupo* retornaGrupo(tVetorPontos *vetor, int n);
     FILE *saida: arquivo de saida*/
 void imprimeGrupos(tVetorPontos *vetor, int n, FILE *saida);
 
+/*@param:
+    tGrupo *grupos: ponteiro para vetor de grupos que será desalocado;
+    int n: inteiro correspondente ao número de grupos no vetor*/
 void desalocaGrupos(tGrupo *grupos, int n);
 
 /*@param:

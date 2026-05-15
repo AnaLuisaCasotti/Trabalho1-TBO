@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "vetor_pontos.h"
 
 typedef struct VetorPontos {
@@ -47,6 +48,7 @@ tPonto* getPonto(tVetorPontos *vetor, int indice){
 
     return vetor->pontos[indice];
 }
+
 void adicionaPonto(tVetorPontos *vetor, tPonto *p){
 
     if(vetor->tam == vetor->cap){
@@ -204,7 +206,15 @@ tGrupo* retornaGrupo(tVetorPontos *vetor, int n){
 void imprimeGrupos(tVetorPontos *vetor, int n, FILE *saida){
     
     int i, j;
+
+    clock_t i_grupos = clock();
     tGrupo *grupos = retornaGrupo(vetor, n);
+    clock_t f_grupos = clock();
+    double t_grupos = ((double)(f_grupos - i_grupos))/ CLOCKS_PER_SEC;
+    printf("Tempo de identificacao dos grupos: %f\n", t_grupos);
+
+
+    clock_t i_escrita = clock();
 
     for(i = 0; i < n; i++){
         
@@ -218,6 +228,10 @@ void imprimeGrupos(tVetorPontos *vetor, int n, FILE *saida){
 
         fprintf(saida, "\n");
     }
+
+    clock_t f_escrita = clock();
+    double t_escrita = ((double)(f_escrita - i_escrita))/ CLOCKS_PER_SEC;
+    printf("Tempo de escrita: %f\n", t_escrita);
 
     desalocaGrupos(grupos, n);
 }
